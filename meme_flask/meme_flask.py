@@ -11,11 +11,12 @@ def get_meme():
     response = json.loads(requests.request("GET",url).text)# get the response from the url and convert it to a json object
     meme_large = response['preview'][-2] # get the second to last image
     subreddit = response['subreddit'] # get the subreddit
-    return meme_large, subreddit  # return the image and subreddit
+    author = response['author'] # get the author
+    return meme_large, subreddit, author  # return the image and subreddit and author
 
 @app.route("/")  # python decorator
 def index():
-    meme_pic, subreddit = get_meme() # get the meme and subreddit
-    return render_template("meme_index.html", meme_pic = meme_pic, subreddit = subreddit) # return the meme and subreddit
+    meme_pic, subreddit, author = get_meme() # get the meme and subreddit and author
+    return render_template("meme_index.html", meme_pic = meme_pic, subreddit = subreddit, author = author) # return the meme and subreddit and author
 
 app.run(host="0.0.0.0", port=80)  # run the app
